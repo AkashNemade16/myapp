@@ -131,6 +131,5 @@ const SideBar = (props) => {
 
         </div>
     )
-
 }
 export default SideBar;
