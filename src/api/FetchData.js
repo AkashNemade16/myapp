@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 
 const apiAccessUrl = 'https://developer.expert.ai/oauth2/token';
@@ -14,6 +14,13 @@ function App(){
     const [User, setUser] =useState([]);
     const [requestError, setRequestError] = useState([]);
 
-
+    const fetchData = useCallback(async () => {
+        try {
+            const result =  await authAxios.get(`/analyze/standard/en/disambiguation`);
+            setUser(result.data);
+        }catch (e) {
+           setRequestError(e.message);
+        }
+    })
 }
 
