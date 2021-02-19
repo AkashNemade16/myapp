@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button, TextField } from '@material-ui/core';
+import {Button, TextField , Typography} from '@material-ui/core';
 import { useForm, Controller } from "react-hook-form";
-import axiosInstance from "../api/api";
+import useFetch from '../api/use-fetch.effect'
 
 const NewInputForm = () => {
     const { handleSubmit, control } = useForm();
-    const onSubmit = (data) =>{
+    const PostData = useFetch('https://developer.expert.ai/oauth2/token');
+    const onSubmit = ({data}) =>{
 
     }
     return (
@@ -18,7 +19,9 @@ const NewInputForm = () => {
                 defaultValue=""
                 control={control }
             />
-
+            <Typography>
+                {console.log(PostData)}
+            </Typography>
             <Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary">
                 Primary
             </Button>
