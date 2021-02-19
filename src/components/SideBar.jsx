@@ -2,12 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {ListItemText,ListItemIcon,ListItem ,Drawer,CssBaseline,AppBar,Toolbar,
-    List,Typography,Divider,IconButton,TextField,TextareaAutosize} from '@material-ui/core';
+    List,Typography,Divider,IconButton} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import NewInputForm from './Form';
 
 const drawerWidth = 240;
 
@@ -151,14 +152,13 @@ export default function DrawerLeft() {
             >
                 <div className={classes.drawerHeader} />
 
-                    <form className={classes.InputParagraph} noValidate autoComplete="off">
-                        <TextareaAutosize rowsMax={4} aria-label="maximum height" placeholder="Enter the document text to be classified"/>
+                    {/*<form onSubmit={} className={classes.InputParagraph} noValidate autoComplete="off">*/}
+                    {/*    <TextareaAutosize rowsMax={4} aria-label="maximum height" placeholder="Enter the document text to be classified"/>*/}
 
 
 
-                    </form>
-
-
+                    {/*</form>*/}
+                <NewInputForm/>
 
             </main>
         </div>

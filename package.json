@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/icons": "^4.11.2"
+    "@material-ui/icons": "^4.11.2",
+    "axios-hooks": "^2.3.0",
+    "react-hook-form": "^6.15.1"
   }
 }
