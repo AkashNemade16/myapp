@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
+import NewInputForm from '../components/Form'
 
 const useFetch = url =>{
-    const [data,setData] = useState(null);
+
+    const [token,setToken] = useState(null);
      useEffect(()=>{
        const fetchData = async () => {
            const res = await fetch(url,{
@@ -12,13 +14,14 @@ const useFetch = url =>{
                body: JSON.stringify({
                    "username": "aksh.akash@gmail.com",
                    "password": "UhNk8fwbNYkvg!z"
-               })
-           });
+               }),
+
+           },);
            const authData = await res;
-           setData(authData);
+           setToken(authData);
        };
        fetchData()
      },[])
-    return data;
+    return token;
 }
 export default useFetch;
