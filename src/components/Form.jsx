@@ -10,7 +10,8 @@ const authURL = 'https://developer.expert.ai/oauth2/token'
 const NewInputForm = () => {
     //api section
     const [token,setToken] = useState(null);
-
+    const [document,setDocument] = useState(null);
+    console.log(document);
     const newToken = token;
     const tokenConfig = () => {
 
@@ -43,7 +44,7 @@ const NewInputForm = () => {
                 console.log(err.response)
             });
     }
-
+    //for posting the data
     const PostConfig = () => {
 
        const config1 = {
@@ -59,10 +60,14 @@ const NewInputForm = () => {
 
        }
 
+    const Stringify = JSON.stringify(document)
+
     const PostLoad =() =>{
+
+
         const dataBody = JSON.stringify({
             "document":{
-                "text":"Michael Jordan was one of the best basketball players of all time. Scoring was Jordan stand-out skill, but he still holds a defensive NBA record, with eight steals in a half."
+                "text":Stringify
             }
         })
         axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en/entities`,
@@ -76,30 +81,16 @@ const NewInputForm = () => {
         load()
     },[])
 
-    // useEffect(()=>{
-    //     const fetchData = async () => {
-    //         const res = await fetch(authURL,{
-    //             method: 'POST',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 "username": "aksh.akash@gmail.com",
-    //                 "password": "UhNk8fwbNYkvg!z"
-    //             }),
-    //
-    //         },);
-    //         const authData = await res;
-    //         setToken(authData);
-    //     };
-    //     fetchData()
-    // },[])
 
     const { handleSubmit, control } = useForm();
-    const onSubmit = (data) =>{
-     console.log(data);
+    const onSubmit = (InputData) =>{
+     console.log(InputData);
+     setDocument(InputData);//first this should be called and then PostLoad which will solve the problem
      PostLoad();
+    // return InputData;
+
     }
+
     // const Auth = useFetch('https://developer.expert.ai/oauth2/token');
 
     return (
@@ -108,7 +99,7 @@ const NewInputForm = () => {
                 render={(props) => <TextField{...props} label="InputForm"
 
                 /> }
-                name="location"
+                name="text"
                 defaultValue=""
                 control={control }
             />
