@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Button, TextField} from '@material-ui/core';
-import { useForm, Controller } from "react-hook-form";
-// import useFetch from '../api/use-fetch.effect';
+import {Button, TextField, FormControl} from '@material-ui/core';
+
 
 const axios = require('axios').default;
-const authURL = 'https://developer.expert.ai/oauth2/token'
-
-
-const NewInputForm = () => {
+const NewInputForm = (props) => {
     //api section
     const [token,setToken] = useState(null);
     const [document,setDocument] = useState(null);
+    const [InputData, setInputData] = useState();
+    const [resdata,setresData] = useState(null);
+
     console.log(document);
+
+    //For authentication
     const newToken = token;
     const tokenConfig = () => {
 
@@ -44,6 +45,7 @@ const NewInputForm = () => {
                 console.log(err.response)
             });
     }
+
     //for posting the data
     const PostConfig = () => {
 
@@ -61,17 +63,15 @@ const NewInputForm = () => {
        }
 
     const Stringify = JSON.stringify(document)
-
     const PostLoad =() =>{
-
-
         const dataBody = JSON.stringify({
             "document":{
                 "text":Stringify
             }
         })
-        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en/entities`,
+        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en`,
             dataBody,PostConfig()).then((res)=>{
+            setresData(res.data);
             console.log(res.data);
         }).catch((err)=>{
             console.log(err.response)
@@ -81,35 +81,42 @@ const NewInputForm = () => {
         load()
     },[])
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        // console.log();
+        setDocument(InputData); //first this should be called and then PostLoad which will solve the problem
+        PostLoad();
+        // return InputData;
+    };
 
-    const { handleSubmit, control } = useForm();
-    const onSubmit = (InputData) =>{
-     console.log(InputData);
-     setDocument(InputData);//first this should be called and then PostLoad which will solve the problem
-     PostLoad();
-    // return InputData;
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setDocument({ ...document, [e.target.name]: e.target.value });
+        setInputData({ [e.target.name]: e.target.value });
+    };
 
-    }
-
-    // const Auth = useFetch('https://developer.expert.ai/oauth2/token');
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
-            <Controller
-                render={(props) => <TextField{...props} label="InputForm"
-
-                /> }
-                name="text"
-                defaultValue=""
-                control={control }
-            />
+        <form onSubmit={(e) => onSubmit(e)}>
+            <FormControl>
+                <TextField
+                    render={props}
+                    label="InputData"
+                    name="text"
+                    //   value={InputData}
+                    defaultValue=""
+                    onChange={(e) => onChange(e)}
+                />
+            </FormControl>
             {/*{console.log(Auth)}*/}
 
-            <Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary">
+            <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
                 Primary
             </Button>
         </form>
-    )
+    );
+
+
 }
 
 export default NewInputForm;
