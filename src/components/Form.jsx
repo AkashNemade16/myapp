@@ -8,12 +8,14 @@ const NewInputForm = (props) => {
     const [document,setDocument] = useState(null);
     const [InputData, setInputData] = useState();
     const [resdata,setresData] = useState([]);
+    console.log(resdata);
 
 
-    //for response data destructuring
-    const entries = Object.entries(resdata)
+    const entries = Object.keys(resdata)
     console.log(entries);
-
+    const DataArray = [];
+    DataArray.push(resdata);
+    console.log(DataArray);
 
     //For authentication
     const newToken = token;
@@ -99,6 +101,21 @@ const NewInputForm = (props) => {
         setInputData({ [e.target.name]: e.target.value });
     };
 
+    const isObject = function (val){
+        if(val === null){
+            return false;
+        }return (typeof val === 'object')
+    }
+
+    const renderData = (obj) => {
+        for(let val in obj){
+            if(isObject(obj[val])){
+                renderData(obj[val]);
+            }else {
+                console.log(val,obj[val]);
+            }
+        }
+    }
 
     return (
         <form onSubmit={(e) => onSubmit(e)}>
@@ -113,19 +130,20 @@ const NewInputForm = (props) => {
                 />
             </FormControl>
 
-
-            {console.log(resdata)}
-
             <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
                 Primary
             </Button>
             <div>
                 {
-
-                    // resdata.map((obj,idx)=>{
-                    //     return <h1 key={idx}>{obj}</h1>
-                    // })
-                    // <h1>hello</h1>
+                    // DataArray.map((obj,idx)=>
+                    //     <div key={idx}>{obj}</div>
+                    // )
+                    // data()
+                    // <p> {console.log(resdata.data?.sentiment?.items[1])}</p>
+                    // <p>{console.log(resdata.data)}</p>
+                    renderData(
+                       resdata.data?.sentiment
+                    )
                 }
             </div>
         </form>
