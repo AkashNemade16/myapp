@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Button, TextField } from "@material-ui/core";
-// import { useForm, Controller } from "react-hook-form";
-import FormControl from "@material-ui/core/FormControl";
-// import useFetch from '../api/use-fetch.effect';
+import React, { useEffect, useState, Fragment } from "react";
+import { Button, TextField, FormControl } from "@material-ui/core";
 
 const axios = require("axios").default;
-const authURL = "https://developer.expert.ai/oauth2/token";
-
 const NewInputForm = (props) => {
   //api section
   const [token, setToken] = useState(null);
   const [document, setDocument] = useState(null);
   const [InputData, setInputData] = useState();
+  const [resdata, setresData] = useState([]);
 
-  //   console.log(document);
+  //for response data destructuring
+  const entries = Object.values(resdata);
+  const keys = Object.keys(resdata);
+
+  // console.log(typeof entries[0]);
+
+  //For authentication
   const newToken = token;
   const tokenConfig = () => {
     //headers
@@ -43,6 +45,7 @@ const NewInputForm = (props) => {
         console.log(err.response);
       });
   };
+
   //for posting the data
   const PostConfig = () => {
     const config1 = {
@@ -58,7 +61,6 @@ const NewInputForm = (props) => {
   };
 
   const Stringify = JSON.stringify(document);
-
   const PostLoad = () => {
     const dataBody = JSON.stringify({
       document: {
@@ -67,12 +69,13 @@ const NewInputForm = (props) => {
     });
     axios
       .post(
-        `https://nlapi.expert.ai/v2/analyze/standard/en/entities`,
+        `https://nlapi.expert.ai/v2/analyze/standard/en`,
         dataBody,
         PostConfig()
       )
       .then((res) => {
         console.log(res.data);
+        setresData(res.data);
       })
       .catch((err) => {
         console.log(err.response);
@@ -82,13 +85,10 @@ const NewInputForm = (props) => {
     load();
   }, []);
 
-  //   const { handleSubmit, control } = useForm();
   const onSubmit = (e) => {
     e.preventDefault();
-    // console.log();
     setDocument(InputData); //first this should be called and then PostLoad which will solve the problem
     PostLoad();
-    // return InputData;
   };
 
   const onChange = (e) => {
@@ -97,26 +97,38 @@ const NewInputForm = (props) => {
     setInputData({ [e.target.name]: e.target.value });
   };
 
-  // const Auth = useFetch('https://developer.expert.ai/oauth2/token');
-
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <FormControl>
-        <TextField
-          render={props}
-          label="InputData"
-          name="text"
-          //   value={InputData}
-          defaultValue=""
-          onChange={(e) => onChange(e)}
-        />
-      </FormControl>
-      {/*{console.log(Auth)}*/}
+    <Fragment>
+      <form onSubmit={(e) => onSubmit(e)}>
+        <FormControl>
+          <TextField
+            render={props}
+            label="InputData"
+            name="text"
+            //   value={InputData}
+            defaultValue=""
+            onChange={(e) => onChange(e)}
+          />
+        </FormControl>
 
-      <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
-        Primary
-      </Button>
-    </form>
+        <Button
+          onClick={(e) => onSubmit(e)}
+          variant="contained"
+          color="primary"
+        >
+          Primary
+        </Button>
+
+        {resdata.data ? (
+          <ul>
+            <li>Overall: {resdata.data.sentiment.overall}</li>
+            <li>Negativity: {resdata.data.sentiment.negativity}</li>
+            <li>Positivity: {resdata.data.sentiment.positivity}</li>
+          </ul>
+        ) : null}
+        {/* {resdata.entities.map((item) => item.lemma)} */}
+      </form>
+    </Fragment>
   );
 };
 
