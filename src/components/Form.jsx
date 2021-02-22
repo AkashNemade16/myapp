@@ -8,14 +8,11 @@ const NewInputForm = (props) => {
     const [document,setDocument] = useState(null);
     const [InputData, setInputData] = useState();
     const [resdata,setresData] = useState([]);
-    console.log(resdata);
 
 
-    const entries = Object.keys(resdata)
-    console.log(entries);
-    const DataArray = [];
-    DataArray.push(resdata);
-    console.log(DataArray);
+    //for response data destructuring
+    const entries = Object.values(resdata);
+    const keys = Object.keys(resdata);
 
     //For authentication
     const newToken = token;
@@ -74,7 +71,7 @@ const NewInputForm = (props) => {
                 "text":Stringify
             }
         })
-        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en`,
+        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en/sentiment`,
             dataBody,PostConfig()).then((res)=>{
             console.log(res.data);
             setresData(res.data);
@@ -134,17 +131,13 @@ const NewInputForm = (props) => {
                 Primary
             </Button>
             <div>
-                {
-                    // DataArray.map((obj,idx)=>
-                    //     <div key={idx}>{obj}</div>
-                    // )
-                    // data()
-                    // <p> {console.log(resdata.data?.sentiment?.items[1])}</p>
-                    // <p>{console.log(resdata.data)}</p>
-                    renderData(
-                       resdata.data?.sentiment
-                    )
-                }
+                {resdata.data ? (
+                    <ul>
+                        <li>Overall: {resdata.data.sentiment.overall}</li>
+                        <li>Negativity: {resdata.data.sentiment.negativity}</li>
+                        <li>Positivity: {resdata.data.sentiment.positivity}</li>
+                    </ul>
+                ) : null}
             </div>
         </form>
     );
