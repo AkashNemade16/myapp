@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Button, TextField, FormControl} from '@material-ui/core';
 
-
 const axios = require('axios').default;
 const NewInputForm = (props) => {
     //api section
     const [token,setToken] = useState(null);
     const [document,setDocument] = useState(null);
     const [InputData, setInputData] = useState();
-    const [resdata,setresData] = useState(null);
+    const [resdata,setresData] = useState([]);
 
-    console.log(document);
+
+    //for response data destructuring
+    const entries = Object.entries(resdata)
+    console.log(entries);
+
 
     //For authentication
     const newToken = token;
@@ -71,8 +74,10 @@ const NewInputForm = (props) => {
         })
         axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en`,
             dataBody,PostConfig()).then((res)=>{
-            setresData(res.data);
             console.log(res.data);
+            setresData(res.data);
+
+
         }).catch((err)=>{
             console.log(err.response)
         });
@@ -83,10 +88,9 @@ const NewInputForm = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        // console.log();
         setDocument(InputData); //first this should be called and then PostLoad which will solve the problem
         PostLoad();
-        // return InputData;
+
     };
 
     const onChange = (e) => {
@@ -108,11 +112,22 @@ const NewInputForm = (props) => {
                     onChange={(e) => onChange(e)}
                 />
             </FormControl>
-            {/*{console.log(Auth)}*/}
+
+
+            {console.log(resdata)}
 
             <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
                 Primary
             </Button>
+            <div>
+                {
+
+                    // resdata.map((obj,idx)=>{
+                    //     return <h1 key={idx}>{obj}</h1>
+                    // })
+                    // <h1>hello</h1>
+                }
+            </div>
         </form>
     );
 
