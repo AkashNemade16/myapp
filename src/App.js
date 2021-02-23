@@ -1,10 +1,11 @@
 import './App.css';
-import SideBar from './components/SideBar';
+import NewInputForm from "./components/Form";
+import React from "react";
 function App() {
   return (
    <div className='App'>
       <h1>hello</h1>
-       <SideBar/>
+       <NewInputForm/>
 
        {/*<Api/>*/}
    </div>

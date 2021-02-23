@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, TextField, FormControl} from '@material-ui/core';
 import Sentiment from './sentiment';
+import Entities from './entities';
 
 const axios = require('axios').default;
 const NewInputForm = (props) => {
@@ -101,7 +102,6 @@ const NewInputForm = (props) => {
             <FormControl>
                 <TextField
                     render={props}
-                    label="InputData"
                     name="text"
                     //   value={InputData}
                     defaultValue=""
@@ -113,6 +113,7 @@ const NewInputForm = (props) => {
                 Primary
             </Button>
             <div>
+                <Entities receiveData={resdata}/>
                 <Sentiment receiveData={resdata}/>
 
                  {/*{resdata.data ?(resdata.data.entities.map((item) => item.lemma)):null}*/}

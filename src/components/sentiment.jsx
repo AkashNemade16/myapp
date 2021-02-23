@@ -10,7 +10,11 @@ const Sentiment = (props) => {
 
     return (
         <div>
-            {data.data?<Doughnut data={{
+
+            {data.data?
+                <div>
+                <h1>Sentiment Analysis</h1>
+                <Doughnut data={{
                 labels:['overall', 'negativity', 'positivity'],
                 datasets:[{
                     label: 'sentiment',
@@ -30,7 +34,9 @@ const Sentiment = (props) => {
                 }]
                     }
                 }
-            />:null
+            />
+                </div>:null
+
             }
 
         </div>
