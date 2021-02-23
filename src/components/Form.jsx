@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, TextField, FormControl} from '@material-ui/core';
+import Sentiment from './sentiment';
 
 const axios = require('axios').default;
 const NewInputForm = (props) => {
@@ -10,12 +11,9 @@ const NewInputForm = (props) => {
     const [resdata,setresData] = useState([]);
 
 
-    //for response data destructuring
-    const entries = Object.values(resdata);
-    const keys = Object.keys(resdata);
-
     //For authentication
     const newToken = token;
+
     const tokenConfig = () => {
 
         //headers
@@ -71,7 +69,7 @@ const NewInputForm = (props) => {
                 "text":Stringify
             }
         })
-        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en/sentiment`,
+        axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en`,
             dataBody,PostConfig()).then((res)=>{
             console.log(res.data);
             setresData(res.data);
@@ -98,22 +96,6 @@ const NewInputForm = (props) => {
         setInputData({ [e.target.name]: e.target.value });
     };
 
-    const isObject = function (val){
-        if(val === null){
-            return false;
-        }return (typeof val === 'object')
-    }
-
-    const renderData = (obj) => {
-        for(let val in obj){
-            if(isObject(obj[val])){
-                renderData(obj[val]);
-            }else {
-                console.log(val,obj[val]);
-            }
-        }
-    }
-
     return (
         <form onSubmit={(e) => onSubmit(e)}>
             <FormControl>
@@ -131,13 +113,9 @@ const NewInputForm = (props) => {
                 Primary
             </Button>
             <div>
-                {resdata.data ? (
-                    <ul>
-                        <li>Overall: {resdata.data.sentiment.overall}</li>
-                        <li>Negativity: {resdata.data.sentiment.negativity}</li>
-                        <li>Positivity: {resdata.data.sentiment.positivity}</li>
-                    </ul>
-                ) : null}
+                <Sentiment receiveData={resdata}/>
+
+                 {/*{resdata.data ?(resdata.data.entities.map((item) => item.lemma)):null}*/}
             </div>
         </form>
     );
