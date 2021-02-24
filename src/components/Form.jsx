@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Button, TextField, FormControl} from '@material-ui/core';
+import {Button, TextField, FormControl, Grid, makeStyles,Box} from '@material-ui/core';
 import Sentiment from './sentiment';
 import Entities from './entities';
 
+const useStyles = makeStyles((theme) => ({
+    textfield: {
+        width:1000
+    },
+}));
 const axios = require('axios').default;
 const NewInputForm = (props) => {
     //api section
-    const [token,setToken] = useState(null);
-    const [document,setDocument] = useState(null);
+    const [token, setToken] = useState(null);
+    const [document, setDocument] = useState(null);
     const [InputData, setInputData] = useState();
-    const [resdata,setresData] = useState([]);
+    const [resdata, setresData] = useState([]);
 
 
     //For authentication
@@ -20,12 +25,12 @@ const NewInputForm = (props) => {
         //headers
         const config = {
             headers: {
-                "Content-Type":"application/json",
+                "Content-Type": "application/json",
             },
         };
 
-        if(token){
-            config.headers["Authorization"] =`Bearer ${newToken}`;
+        if (token) {
+            config.headers["Authorization"] = `Bearer ${newToken}`;
         }
         return config;
     }
@@ -33,16 +38,16 @@ const NewInputForm = (props) => {
     const load = () => {
         const body = JSON.stringify({
 
-                                "username": "aksh.akash@gmail.com",
-                                "password": "UhNk8fwbNYkvg!z"
+            "username": "aksh.akash@gmail.com",
+            "password": "UhNk8fwbNYkvg!z"
 
         })
         axios.post(`https://developer.expert.ai/oauth2/token`,
-            body,tokenConfig())
-            .then((res)=>{
+            body, tokenConfig())
+            .then((res) => {
                 setToken(res.data);
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log(err.response)
             });
     }
@@ -50,39 +55,39 @@ const NewInputForm = (props) => {
     //for posting the data
     const PostConfig = () => {
 
-       const config1 = {
-           headers: {
-               "Content-Type": "application/json",
-           },
-       };
+        const config1 = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
 
-           if (token) {
-               config1.headers["Authorization"] = `Bearer ${newToken}`;
-           }
-            return config1;
+        if (token) {
+            config1.headers["Authorization"] = `Bearer ${newToken}`;
+        }
+        return config1;
 
-       }
+    }
 
     const Stringify = JSON.stringify(document)
-    const PostLoad =() =>{
+    const PostLoad = () => {
         const dataBody = JSON.stringify({
-            "document":{
-                "text":Stringify
+            "document": {
+                "text": Stringify
             }
         })
         axios.post(`https://nlapi.expert.ai/v2/analyze/standard/en`,
-            dataBody,PostConfig()).then((res)=>{
+            dataBody, PostConfig()).then((res) => {
             console.log(res.data);
             setresData(res.data);
 
 
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err.response)
         });
     }
-    useEffect(()=>{
+    useEffect(() => {
         load()
-    },[])
+    }, [])
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -92,36 +97,55 @@ const NewInputForm = (props) => {
     };
 
     const onChange = (e) => {
-        const { name, value } = e.target;
-        setDocument({ ...document, [e.target.name]: e.target.value });
-        setInputData({ [e.target.name]: e.target.value });
+        const {name, value} = e.target;
+        setDocument({...document, [e.target.name]: e.target.value});
+        setInputData({[e.target.name]: e.target.value});
     };
 
+    const classes = useStyles();
     return (
-        <form onSubmit={(e) => onSubmit(e)}>
-            <FormControl>
-                <TextField
-                    render={props}
-                    name="text"
-                    //   value={InputData}
-                    defaultValue=""
-                    onChange={(e) => onChange(e)}
-                />
-            </FormControl>
+        <div>
+            <form  onSubmit={(e) => onSubmit(e)}>
+                <Grid spacing={3} container direction="column" justify="center" alignItems="center">
+                    <Grid item xs={12}>
+                        <Box width='75%'>
+                        <FormControl>
 
-            <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
-                Primary
-            </Button>
-            <div>
-                <Entities receiveData={resdata}/>
-                <Sentiment receiveData={resdata}/>
+                                <TextField
+                                    className={classes.textfield}
+                                    render={props}
+                                    name="text"
+                                    //   value={InputData}
+                                    multiline
+                                    type='text'
+                                    variant="outlined"
+                                    defaultValue=""
+                                    onChange={(e) => onChange(e)}
+                                />
 
-                 {/*{resdata.data ?(resdata.data.entities.map((item) => item.lemma)):null}*/}
-            </div>
-        </form>
+
+                        </FormControl>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs>
+                        <Button onClick={(e) => onSubmit(e)} variant="contained" color="primary">
+                            Analyze
+                        </Button>
+                    </Grid>
+                    <Grid item xs>
+                        <div>
+                            <Entities receiveData={resdata}/>
+                            <Sentiment receiveData={resdata}/>
+
+                            {/*{resdata.data ?(resdata.data.entities.map((item) => item.lemma)):null}*/}
+                        </div>
+                    </Grid>
+
+                </Grid>
+            </form>
+        </div>
     );
-
-
 }
 
 export default NewInputForm;
