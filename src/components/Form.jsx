@@ -106,7 +106,7 @@ const NewInputForm = (props) => {
     return (
         <div>
             <form  onSubmit={(e) => onSubmit(e)}>
-                <Grid spacing={3} container direction="column" justify="center" alignItems="center">
+                <Grid spacing={3} container direction="column" justify="center" alignContent='stretch' alignItems="center">
                     <Grid item xs={12}>
                         <Box width='75%'>
                         <FormControl>

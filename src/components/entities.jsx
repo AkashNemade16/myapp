@@ -21,7 +21,7 @@ const Entities = props => {
                 {data.data ?<div>
                     <h1>Entities</h1>
                         <Grid container spacing={3} justify="center"
-                              alignItems="flex-start" direction="row">
+                              alignItems='center' alignContent="stretch-center" direction="row">
                             <Grid item>
                                 <Paper className={classes.paper}>
                                     <div>
