@@ -15,13 +15,12 @@ const useStyles = makeStyles((theme) => ({
 const Entities = props => {
         const classes = useStyles();
         const data = props.receiveData;
-        console.log(data);
         return (
             <div className={classes.root}>
                 {data.data ?<div>
                     <h1>Entities</h1>
                         <Grid container spacing={3} justify="center"
-                              alignItems='center' alignContent="stretch-center" direction="row">
+                              alignItems='center' alignContent="stretch" direction="row">
                             <Grid item>
                                 <Paper className={classes.paper}>
                                     <div>
@@ -44,9 +43,9 @@ const Entities = props => {
                             <Grid item>
                                 <Paper className={classes.paper}>
                                     <div>
-                                        <h3>Type</h3>
-                                        {data.data.entities.map((item, id) =>
-                                            (<div key={id}>{item.type}</div>))}
+                                        <h3>Topic</h3>
+                                        {data.data.topics.map((item, id) =>
+                                            (<div key={id}>{item.label}</div>))}
                                     </div>
                                 </Paper>
                             </Grid>

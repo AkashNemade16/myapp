@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Button, TextField, FormControl, Grid, makeStyles,Box} from '@material-ui/core';
 import Sentiment from './sentiment';
 import Entities from './entities';
+import Summarizer from './Summarizer'
+
 
 const useStyles = makeStyles((theme) => ({
     textfield: {
@@ -106,9 +108,9 @@ const NewInputForm = (props) => {
     return (
         <div>
             <form  onSubmit={(e) => onSubmit(e)}>
-                <Grid spacing={3} container direction="column" justify="center" alignContent='stretch' alignItems="center">
+                <Grid spacing={3} container direction="column" justify="center" alignContent='space-around' >
                     <Grid item xs={12}>
-                        <Box width='75%'>
+
                         <FormControl>
 
                                 <TextField
@@ -125,7 +127,6 @@ const NewInputForm = (props) => {
 
 
                         </FormControl>
-                        </Box>
                     </Grid>
 
                     <Grid item xs>
@@ -135,10 +136,9 @@ const NewInputForm = (props) => {
                     </Grid>
                     <Grid item xs>
                         <div>
+                            <Summarizer receiveData={resdata} />
                             <Entities receiveData={resdata}/>
                             <Sentiment receiveData={resdata}/>
-
-                            {/*{resdata.data ?(resdata.data.entities.map((item) => item.lemma)):null}*/}
                         </div>
                     </Grid>
 
