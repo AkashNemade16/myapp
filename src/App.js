@@ -1,5 +1,5 @@
 import React from "react";
-import './App.css';
+
 import NewInputForm from "./components/Form";
 import Header from './components/Header'
 import {Grid} from '@material-ui/core'
