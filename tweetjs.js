@@ -3,7 +3,7 @@
 // Do not remove this notice.
 var XMLHttpRequest = require("xhr2");
 const tweetArr = [];
-TweetJs = {
+const TweetJs = {
   ListTweetsOnUserTimeline: function (screenName, callback) {
     TweetJs._callApi(
       {
