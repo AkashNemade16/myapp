@@ -35,7 +35,7 @@ const TweetJs = {
   },
 };
 
-TweetJs.Search("#thane", function (data) {
+TweetJs.Search("#Politics", function (data) {
   data.statuses.map((el) => {
     tweetArr.push(el.text);
   });

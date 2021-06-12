@@ -6,9 +6,8 @@ const useStyles = makeStyles((theme) => ({
     header: {
         backgroundColor:'lightgray',
         color:"inherit",
-
+             
     }
-
 }));
 
 
@@ -20,7 +19,7 @@ const Header = props => {
                    className={classes.header}>
                 <Toolbar>
                     <Typography variant="h6" >
-                       DocumentAnalyzer
+                       Text Analyzer
                     </Typography>
                 </Toolbar>
             </AppBar>
