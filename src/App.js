@@ -4,7 +4,7 @@ import NewInputForm from "./components/Form";
 import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import TwitterInput from './components/twitter';
-import {GridList,Grid} from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,21 +13,19 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
+
     },
     gridList: {
         width: 500,
         height: 450,
-    },
-    icon: {
-        color: 'rgba(255, 255, 255, 0.54)',
-    },
+    }
 }));
 
 function App() {
     const classes = useStyles();
   return (
    <div className={classes.root}>
-       <GridList >
+       <Grid classes={classes.gridList} direction="column" spacing={3} >
            <Grid item>
                <Header/>
            </Grid>
@@ -38,7 +36,7 @@ function App() {
               <TwitterInput />
            </Grid>
 
-       </GridList>
+       </Grid>
 
 
        {/*<Api/>*/}
